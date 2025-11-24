@@ -1,0 +1,18 @@
+import type React from 'react';
+import styles from './styles.module.css';
+
+type InputProps = {
+  //   type: 'text' | 'number' | 'search';
+  id: string;
+  labelText: string;
+} & React.ComponentProps<'input'>;
+
+export function Input({ id, type, labelText, ...rest }: InputProps) {
+  return (
+    <>
+      <label htmlFor={id}>{labelText}</label>
+
+      <input className={styles.input} id={id} type={type} {...rest}></input>
+    </>
+  );
+}

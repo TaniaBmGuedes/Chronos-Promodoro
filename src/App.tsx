@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { PlayCircleIcon } from 'lucide-react';
+import { Button } from './components/button';
+import { Container } from './components/container';
+import { CountDown } from './components/countDown';
+import { Cycles } from './components/cycles';
+import { Input } from './components/input';
+import { Logo } from './components/logo';
+import { Menu } from './components/menu';
+import './styles/global.css';
+import './styles/theme.css';
+import { Footer } from './components/footer';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Container>
+        <Logo />
+      </Container>
+      <Container>
+        <Menu />
+      </Container>
+      <Container>
+        <CountDown />
+      </Container>
+      <Container>
+        <form className='form' action=''>
+          <div className='formRow'>
+            <Input
+              type='text'
+              id='myInput'
+              labelText='task'
+              placeholder='Write something'
+            />
+          </div>
+          <div className='formRow'>
+            <p>Lorem</p>
+          </div>
+          <div className='formRow'>
+            <Cycles />
+          </div>
+          <div className='formRow'>
+            <Button icon={<PlayCircleIcon />} />
+          </div>
+        </form>
+      </Container>
+      <Container>
+        <Footer />
+      </Container>
     </>
-  )
+  );
 }
-
-export default App
+export default App;
