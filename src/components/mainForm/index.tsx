@@ -9,6 +9,7 @@ import { getNextCycleType } from '../../utils/getNextCycleType';
 import { TaskActionTypes } from '../../templates/contexts/taskContext/taskAction';
 import { Tips } from '../tips';
 import { getNextCycle } from '../../utils/getNextCycle';
+import { showMessage } from '../../adapters/showMessage';
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
@@ -20,13 +21,14 @@ export function MainForm() {
 
   function handleCreateNewTask(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    showMessage.dismiss();
 
     if (taskNameInput.current === null) return;
 
     const taskName = taskNameInput.current.value.trim();
 
     if (!taskName) {
-      //TODO:toast
+      showMessage.warn('Write some text to task name');
       return;
     }
     const newTask: TaskModel = {
@@ -40,9 +42,12 @@ export function MainForm() {
     };
 
     dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
+    showMessage.success('Task init');
   }
 
   function handleStopTask() {
+    showMessage.dismiss();
+    showMessage.info('Task interrupted');
     dispatch({ type: TaskActionTypes.INTERRUPT_TASK });
   }
 
