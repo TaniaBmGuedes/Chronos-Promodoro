@@ -1,6 +1,6 @@
 import { TrashIcon } from 'lucide-react';
 import { useTaskContext } from '../../contexts/taskContext/useTaskContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { sortTasks, type SortTasksOptions } from '../../../utils/sortTasks';
 import { TaskActionTypes } from '../../contexts/taskContext/taskAction';
 import MainTemplate from '../../MainTemplate';
@@ -10,6 +10,7 @@ import styles from './sytles.module.css';
 import { Button } from '../../../components/button';
 import { getTaskStatus } from '../../../utils/getTaskStatus';
 import { formattedDate } from '../../../utils/formatedDate';
+import { showMessage } from '../../../adapters/showMessage';
 
 export function History() {
   const { state, dispatch } = useTaskContext();
@@ -34,11 +35,24 @@ export function History() {
       direction: prev.direction === 'desc' ? 'asc' : 'desc',
     }));
   }
-  function handleResetHistory() {
-    if (!confirm('Tem certeza')) return;
 
-    dispatch({ type: TaskActionTypes.RESET_STATE });
+  function handleResetHistory() {
+    showMessage.dismiss();
+
+    showMessage.confirm(
+      'Are you sure that you wanna delete all history?',
+      (confirmed: boolean) => {
+        if (!confirmed) return;
+
+        dispatch({ type: TaskActionTypes.RESET_STATE });
+      },
+    );
   }
+  useEffect(() => {
+    return () => {
+      showMessage.dismiss();
+    };
+  }, []);
 
   return (
     <MainTemplate>
@@ -50,8 +64,8 @@ export function History() {
               <Button
                 icon={<TrashIcon />}
                 color='red'
-                aria-label='Apagar todo o histórico'
-                title='Apagar histórico'
+                aria-label='Delete all history'
+                title='Delete history'
                 onClick={handleResetHistory}
               />
             </span>
