@@ -1,9 +1,4 @@
-import {
-  Rocket,
-  Compass,
-  HelpCircle,
-  AlertTriangle,
-} from 'lucide-react';
+import { Rocket, Compass, HelpCircle, AlertTriangle } from 'lucide-react';
 
 import MainTemplate from '../../MainTemplate';
 import { Container } from '../../../components/container';
@@ -11,6 +6,7 @@ import { GenericHtml } from '../../../components/genericHTML';
 import { Head } from '../../../components/header';
 
 import styles from './styles.module.css';
+import { RouterLink } from '../../../components/routerLink';
 
 export function NotFound() {
   return (
@@ -22,7 +18,7 @@ export function NotFound() {
             <Rocket className={styles.iconTitle} />
           </Head>
 
-          <p className="flex items-start gap-3">
+          <p className='flex items-start gap-3'>
             <AlertTriangle className={styles.iconError} />
             <span>
               Oops! It seems the page you're trying to access doesn’t exist.
@@ -31,13 +27,14 @@ export function NotFound() {
             </span>
           </p>
 
-          <p className="flex items-start gap-3">
+          <p className='flex items-start gap-3'>
             <Compass className={styles.iconCompass} />
             <span>
               But don’t worry — you're not lost in space (yet). You can safely
-              return to the <a href="/">homepage</a> or to your{' '}
-              <a href="/history">history</a>. Or stay here pretending you’ve
-              found a secret page only the coolest explorers can access.
+              return to the <RouterLink hRef='/'>homepage</RouterLink> or to
+              your <RouterLink hRef='/history'>history</RouterLink>. Or stay
+              here pretending you’ve found a secret page only the coolest
+              explorers can access.
             </span>
           </p>
 
@@ -47,9 +44,9 @@ export function NotFound() {
             Otherwise, use the menu to go back to the real world.
           </p>
 
-          <p className="flex items-start gap-3">
+          <p className='flex items-start gap-3'>
             <HelpCircle className={styles.iconHelp} />
-            <span className="flex items-center gap-1">
+            <span className='flex items-center gap-1'>
               Meanwhile, here’s a thought: “If a page doesn’t exist on the
               internet, did it ever truly exist?”
             </span>
