@@ -7,13 +7,16 @@ import type { TaskModel } from '../../models/taskModel';
 import { useTaskContext } from '../../templates/contexts/taskContext/useTaskContext';
 import { getNextCycleType } from '../../utils/getNextCycleType';
 import { TaskActionTypes } from '../../templates/contexts/taskContext/taskAction';
+import { Tips } from '../tips';
+import { getNextCycle } from '../../utils/getNextCycle';
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
 
   const taskNameInput = useRef<HTMLInputElement>(null);
 
-  const nextCycleType = getNextCycleType(state.currentCycle);
+  const nextCycle = getNextCycle(state.currentCycle);
+  const nextCyleType = getNextCycleType(nextCycle);
 
   function handleCreateNewTask(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -32,8 +35,8 @@ export function MainForm() {
       startDate: Date.now(),
       completeDate: null,
       interruptDate: null,
-      duration: state.config[nextCycleType],
-      type: nextCycleType,
+      duration: state.config[nextCyleType],
+      type: nextCyleType,
     };
 
     dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
@@ -57,7 +60,7 @@ export function MainForm() {
       </div>
 
       <div className='formRow'>
-        <p>The next break is a 25-minute interval.</p>
+        <Tips />
       </div>
 
       {state.currentCycle > 0 && (
