@@ -1,20 +1,18 @@
-import { PlayCircleIcon } from 'lucide-react';
+import { PlayCircleIcon, StopCircleIcon } from 'lucide-react';
 import { Input } from '../input';
 import { Cycles } from '../cycles';
 import { Button } from '../button';
 import { useRef } from 'react';
 import type { TaskModel } from '../../models/taskModel';
 import { useTaskContext } from '../../templates/contexts/taskContext/useTaskContext';
-import { getNextCycle } from '../../utils/getNextCycle';
 import { getNextCycleType } from '../../utils/getNextCycleType';
-import { formatSecondsToMinutes } from '../../utils/formatSecondsToMinutes';
+import { TaskActionTypes } from '../../templates/contexts/taskContext/taskAction';
 
 export function MainForm() {
-  const { state, setState } = useTaskContext();
+  const { state, dispatch } = useTaskContext();
 
   const taskNameInput = useRef<HTMLInputElement>(null);
 
-  const nextCycle = getNextCycle(state.currentCycle);
   const nextCycleType = getNextCycleType(state.currentCycle);
 
   function handleCreateNewTask(e: React.FormEvent<HTMLFormElement>) {
@@ -38,43 +36,55 @@ export function MainForm() {
       type: nextCycleType,
     };
 
-    const secondsRemaining = newTask.duration * 60;
+    dispatch({ type: TaskActionTypes.START_TASK, payload: newTask });
+  }
 
-    setState(prevState => {
-      return {
-        ...prevState,
-        config: { ...prevState.config },
-        activeTask: newTask,
-        currentCycle: nextCycle,
-        secondsRemaining,
-        formattedSecondsRemaining: formatSecondsToMinutes(secondsRemaining),
-        tasks: [...prevState.tasks, newTask],
-      };
-    });
+  function handleStopTask() {
+    dispatch({ type: TaskActionTypes.INTERRUPT_TASK });
   }
 
   return (
     <form className='form' action='' onSubmit={handleCreateNewTask}>
       <div className='formRow'>
         <Input
-          labelText='task'
-          id='meuInput'
+          labelText='Task'
+          id='myInout'
           type='text'
-          placeholder='Digite algo'
+          placeholder='Write something...'
           ref={taskNameInput}
+          disabled={!!state.activeTask}
         />
       </div>
 
       <div className='formRow'>
-        <p>Próximo intervalo é de 25min</p>
+        <p>The next break is a 25-minute interval.</p>
       </div>
 
-      <div className='formRow'>
-        <Cycles />
-      </div>
+      {state.currentCycle > 0 && (
+        <div className='formRow'>
+          <Cycles />
+        </div>
+      )}
 
       <div className='formRow'>
-        <Button icon={<PlayCircleIcon />} />
+        {!state.activeTask && (
+          <Button
+            aria-label='Init new task'
+            title='Init new Task'
+            type='submit'
+            icon={<PlayCircleIcon />}
+          />
+        )}
+        {!!state.activeTask && (
+          <Button
+            aria-label='Stop current task'
+            title='Stop current task'
+            type='button'
+            color='red'
+            onClick={handleStopTask}
+            icon={<StopCircleIcon />}
+          />
+        )}
       </div>
     </form>
   );

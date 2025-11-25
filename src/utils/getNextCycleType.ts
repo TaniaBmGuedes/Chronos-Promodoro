@@ -1,9 +1,7 @@
 import type { TaskModel } from '../models/taskModel';
 
 export function getNextCycleType(currentCycle: number): TaskModel['type'] {
-  return currentCycle % 8
-    ? 'longBreakTime'
-    : currentCycle % 2
-    ? 'shortBreakTime'
-    : 'workTime';
+  if (currentCycle % 8 === 0) return 'longBreakTime';
+  if (currentCycle % 2 === 0) return 'shortBreakTime';
+  return 'workTime';
 }
