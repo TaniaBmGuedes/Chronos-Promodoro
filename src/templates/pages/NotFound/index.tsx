@@ -7,8 +7,13 @@ import { Head } from '../../../components/header';
 
 import styles from './styles.module.css';
 import { RouterLink } from '../../../components/routerLink';
+import { useEffect } from 'react';
 
 export function NotFound() {
+  useEffect(() => {
+    document.title = 'Not Found - Promodo';
+  }, []);
+
   return (
     <MainTemplate>
       <Container>

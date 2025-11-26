@@ -54,6 +54,10 @@ export function History() {
     };
   }, []);
 
+  useEffect(() => {
+    document.title = 'Promodo History';
+  }, []);
+
   return (
     <MainTemplate>
       <Container>

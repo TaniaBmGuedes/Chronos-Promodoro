@@ -17,8 +17,14 @@ import { Head } from '../../../components/header';
 
 import styles from './styles.module.css';
 import { RouterLink } from '../../../components/routerLink';
+import { useEffect } from 'react';
 
 export function AboutPomodoro() {
+
+  useEffect(() => {
+    document.title = 'Understand Promodo';
+  }, []);
+
   return (
     <MainTemplate>
       <Container>

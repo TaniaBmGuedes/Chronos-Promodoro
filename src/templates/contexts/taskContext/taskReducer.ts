@@ -23,6 +23,9 @@ export function taskReducer(
         tasks: [...state.tasks, newTask],
       };
     }
+    case TaskActionTypes.CHANGE_SETTINGS: {
+      return { ...state, config: { ...action.payload } };
+    }
     case TaskActionTypes.INTERRUPT_TASK: {
       return {
         ...state,
